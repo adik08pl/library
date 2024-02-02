@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Email</title>
+</head>
+<body>
+<form id="form">
+  <input type="text" name="title" placeholder="Tytuł:">
+  <input type="text" name="author" placeholder="Autor:">
+  <input type="number" name="year" placeholder="Autor:">
+  <button id="btn">Wyślij</button>
+  <div id="answer"></div>
+</form>
+<script>
+const div = document.getElementById('answer');
+ const form = document.getElementById('form');
+ document.getElementById('btn').addEventListener('click', (event) => {
+event.preventDefault();
+const formObj = {
+ title: form.elements.title.value,
+ author: form.elements.author.value,
+ year: form.elements.year.value
+ };
+fetch('/save?' + new URLSearchParams(formObj))
+ .then(response => response.text())
+ .then((text) => {
+ div.innerHTML = `<h1>${text}</h1>`;
+ });
+ });
+ document.getElementById('btn2').addEventListener('click', (event) => {
+event.preventDefault();
+fetch('/showAll?' + new URLSearchParams())
+ .then(response => response.text())
+ .then((text) => {
+ div.innerHTML = `<h1>${text}</h1>`;
+ });
+ });
+ document.getElementById('btn3').addEventListener('click', (event) => {
+event.preventDefault();
+const formObj2 = {
+ title: form.elements.title.value
+ };
+fetch('/showOne?' + new URLSearchParams(formObj2))
+ .then(response => response.text())
+ .then((text) => {
+ div.innerHTML = `<h1>${text}</h1>`;
+ });
+ });
+</script>
+</body>
+</html>

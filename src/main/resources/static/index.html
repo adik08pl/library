@@ -8,24 +8,33 @@
 <form id="form">
   <input type="text" name="title" placeholder="Tytuł:">
   <input type="text" name="author" placeholder="Autor:">
-  <input type="number" name="year" placeholder="Autor:">
+  <input type="number" name="year" placeholder="Rok wydania:">
+  <input type="number" name="id" placeholder="Id (do wyszukiwania):">
   <button id="btn">Wyślij</button>
+  <button id="btn2">Pokaż wszystkie</button>
+  <button id="btn3">Pokaż jedną</button>
   <div id="answer"></div>
 </form>
 <script>
 const div = document.getElementById('answer');
  const form = document.getElementById('form');
- document.getElementById('btn').addEventListener('click', (event) => {
+document.getElementById('btn').addEventListener('click', (event) => {
 event.preventDefault();
 const formObj = {
  title: form.elements.title.value,
  author: form.elements.author.value,
  year: form.elements.year.value
  };
-fetch('/save?' + new URLSearchParams(formObj))
+fetch('/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formObj),
+    })
  .then(response => response.text())
  .then((text) => {
- div.innerHTML = `<h1>${text}</h1>`;
+ div.innerHTML += `<h1>${text}</h1>`;
  });
  });
  document.getElementById('btn2').addEventListener('click', (event) => {
@@ -39,7 +48,7 @@ fetch('/showAll?' + new URLSearchParams())
  document.getElementById('btn3').addEventListener('click', (event) => {
 event.preventDefault();
 const formObj2 = {
- title: form.elements.title.value
+ id: form.elements.id.value
  };
 fetch('/showOne?' + new URLSearchParams(formObj2))
  .then(response => response.text())

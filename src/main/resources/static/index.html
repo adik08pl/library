@@ -9,10 +9,14 @@
   <input type="text" name="title" placeholder="Tytuł:">
   <input type="text" name="author" placeholder="Autor:">
   <input type="number" name="year" placeholder="Rok wydania:">
+  <input type="number" name="year2" placeholder="Rok wydania2:">
+  <input type="number" name="genre" placeholder="Gatunek:">
   <input type="number" name="id" placeholder="Id (do wyszukiwania):">
   <button id="btn">Wyślij</button>
   <button id="btn2">Pokaż wszystkie</button>
   <button id="btn3">Pokaż jedną</button>
+  <button id="btn4">Generuj 5</button>
+  <button id="btn5">Wszystko ig</button>
   <div id="answer"></div>
 </form>
 <script>
@@ -51,6 +55,26 @@ const formObj2 = {
  id: form.elements.id.value
  };
 fetch('/showOne?' + new URLSearchParams(formObj2))
+ .then(response => response.text())
+ .then((text) => {
+ div.innerHTML = `<h1>${text}</h1>`;
+ });
+ });
+   document.getElementById('btn4').addEventListener('click', (event) => {
+event.preventDefault();
+fetch('/generate?' + new URLSearchParams());
+ });
+  document.getElementById('btn5').addEventListener('click', (event) => {
+event.preventDefault();
+const formObj3 = {
+ id: form.elements.id.value,
+ author: form.elements.author.value,
+ title: form.elements.title.value,
+ genre: form.elements.title.value,
+ year1: form.elements.year.value,
+ year2: form.elements.year2.value
+ };
+fetch('/useAll?' + new URLSearchParams(formObj3))
  .then(response => response.text())
  .then((text) => {
  div.innerHTML = `<h1>${text}</h1>`;

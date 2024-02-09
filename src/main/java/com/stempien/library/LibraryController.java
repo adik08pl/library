@@ -16,7 +16,7 @@ public class LibraryController {
     @PostMapping("/save")
     @ResponseBody()
     String save(@RequestBody NewBook newBook){
-        libraryService.save(newBook.getTitle(),newBook.getAuthor(),newBook.getYear());
+        libraryService.save(newBook.getTitle(),newBook.getAuthor(),newBook.getYear(),newBook.getGenre(),newBook.getISBN(),newBook.getAvaiable());
         return "Zapisano książke";
     }
     @GetMapping("/showAll")
@@ -28,5 +28,15 @@ public class LibraryController {
     @ResponseBody()
     String showOne(@RequestParam Integer id){
         return libraryService.getOne(id);
+    }
+    @GetMapping("/generate")
+    @ResponseBody()
+    void generate(){
+        libraryService.generate();
+    }
+    @GetMapping("/useAll")
+    @ResponseBody()
+    String useAll(@RequestParam int id,@RequestParam String author,@RequestParam String title,@RequestParam String genre,@RequestParam int year1,@RequestParam int year2){
+        return libraryService.useAll(id,author,title,genre,year1,year2);
     }
 }
